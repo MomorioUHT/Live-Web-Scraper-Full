@@ -1,0 +1,36 @@
+services:
+  webui:
+    image: scraper-webui-image
+    container_name: scraper-webui
+    build:
+      context: ./WebUI
+      args:
+        # The backend url is only needed while building the image.
+        - VITE_BACKEND_API=http://localhost:8000/api/v1/live
+    environment:
+      - WEBUI_PORT=3000
+    ports:
+      - "3000:80"
+    pull_policy: never
+    networks:
+      - scraper_network
+    restart: unless-stopped
+
+  server:
+    image: scraper-server-image
+    container_name: scraper-server
+    build:
+      context: ./Server
+      dockerfile: Dockerfile
+    environment:
+      - SERVER_PORT=8000
+    ports:
+      - "8000:8000"
+    pull_policy: never
+    networks:
+      - scraper_network
+    restart: unless-stopped
+
+networks:
+  scraper_network:
+    driver: bridge

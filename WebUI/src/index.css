@@ -1,0 +1,4 @@
+/* Body styling handled by Bootstrap, but we can set up the background color here */
+body {
+  background-color: #f8f9fa;
+}
