@@ -6,12 +6,15 @@ services:
       context: ./WebUI
       args:
         # The backend url is only needed while building the image.
-        - VITE_BACKEND_API=http://localhost:8000/api/v1/live
+        # Please insert only the path of the API endpoint
+        # The host will be automatically manage by nginx configuration.
+        # It will be replaced with the dns name of the 'server' service
+        - VITE_BACKEND_API=/api/v1/live
+    pull_policy: never
     environment:
       - WEBUI_PORT=3000
     ports:
       - "3000:80"
-    pull_policy: never
     networks:
       - scraper_network
     restart: unless-stopped
@@ -22,11 +25,13 @@ services:
     build:
       context: ./Server
       dockerfile: Dockerfile
-    environment:
-      - SERVER_PORT=8000
-    ports:
-      - "8000:8000"
     pull_policy: never
+    environment:
+      - SERVER_PORT=${SERVER_PORT:-8000}
+    # if you want to access the API outside this scraper's intranet, you can map the ports to the host machine's network
+    # otherwise, you can remove this port mapping configuration.
+    ports:
+      - "${SERVER_PORT:-8000}:${SERVER_PORT:-8000}"
     networks:
       - scraper_network
     restart: unless-stopped

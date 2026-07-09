@@ -1,5 +1,13 @@
-# Live Scraper WEB UI
+# Live Scraper (Full Version)
 Testing Live Video Title, Viewers, Comment Scrapping using Selenium.
+
+## Contains 
+* Backend Server API (FastAPI)
+    * Facebook Live Scraper
+    * TikTok Live Scraper
+    * Twitter (X) Live Scraper
+    * YouTube Live Scraper
+* Frontend (React)
 
 ## Deploy the project
 1. Clone this repository.
